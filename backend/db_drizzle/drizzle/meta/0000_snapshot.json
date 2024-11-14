@@ -1,0 +1,203 @@
+{
+  "id": "026722aa-d9fa-4bd3-85a7-9db189a03c1c",
+  "prevId": "00000000-0000-0000-0000-000000000000",
+  "version": "7",
+  "dialect": "postgresql",
+  "tables": {
+    "public.data": {
+      "name": "data",
+      "schema": "",
+      "columns": {
+        "rid": {
+          "name": "rid",
+          "type": "varchar",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "date": {
+          "name": "date",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        },
+        "age": {
+          "name": "age",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "gender": {
+          "name": "gender",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "feature_a": {
+          "name": "feature_a",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "feature_b": {
+          "name": "feature_b",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "feature_c": {
+          "name": "feature_c",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "feature_d": {
+          "name": "feature_d",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "feature_e": {
+          "name": "feature_e",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "feature_f": {
+          "name": "feature_f",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "data_rid_unique": {
+          "name": "data_rid_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "rid"
+          ]
+        }
+      }
+    },
+    "public.users": {
+      "name": "users",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "varchar",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "''"
+        },
+        "email": {
+          "name": "email",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "password": {
+          "name": "password",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "users_id_unique": {
+          "name": "users_id_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "id"
+          ]
+        },
+        "users_email_unique": {
+          "name": "users_email_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "email"
+          ]
+        }
+      }
+    },
+    "public.views": {
+      "name": "views",
+      "schema": "",
+      "columns": {
+        "vid": {
+          "name": "vid",
+          "type": "varchar",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "filters": {
+          "name": "filters",
+          "type": "json",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'{\"ageFilter\":null,\"dateFilter\":null,\"genderFilter\":null}'::json"
+        },
+        "created_by": {
+          "name": "created_by",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "views_created_by_users_id_fk": {
+          "name": "views_created_by_users_id_fk",
+          "tableFrom": "views",
+          "tableTo": "users",
+          "columnsFrom": [
+            "created_by"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "views_vid_unique": {
+          "name": "views_vid_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "vid"
+          ]
+        }
+      }
+    }
+  },
+  "enums": {},
+  "schemas": {},
+  "sequences": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "roc8-challenge",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}
