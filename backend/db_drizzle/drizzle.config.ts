@@ -5,9 +5,9 @@ export default {
   out: "./drizzle",
   dialect: "postgresql", // 'pg' | 'mysql2' | 'better-sqlite' | 'libsql' | 'turso'
   dbCredentials: {
-    host: "localhost", //"192.168.29.73",
-    user: "admin", //"mellob",
-    password: "Mellob198978SadcDWFewd",
+    host: "192.168.29.73",
+    user: "mellob",
+    password: "mellob1989",
     database: "roc8",
     ssl: false,
   },

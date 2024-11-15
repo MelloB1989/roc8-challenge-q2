@@ -1,5 +1,11 @@
 package database
 
+type ResponseHTTP struct {
+	Success bool        `json:"success"`
+	Data    interface{} `json:"data"`
+	Message string      `json:"message"`
+}
+
 type Users struct {
 	Id       string `json:"id"`
 	Name     string `json:"name"`
@@ -10,8 +16,8 @@ type Users struct {
 type Data struct {
 	Rid      string `json:"rid"`
 	Date     string `json:"date"`
-	Age      int    `json:"age"`
-	Gender   int    `json:"gender"`
+	Age      int    `json:"age"`    // 0 for 15-25 and 1 for >25, assuming age is in this range
+	Gender   int    `json:"gender"` // 0 for female and 1 for male
 	FeatureA int    `json:"feature_a"`
 	FeatureB int    `json:"feature_b"`
 	FeatureC int    `json:"feature_c"`

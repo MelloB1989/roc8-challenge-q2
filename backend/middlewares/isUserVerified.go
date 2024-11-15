@@ -7,7 +7,7 @@ import (
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gofiber/fiber/v2"
 
-	"wedzing/config"
+	"roc8/config"
 )
 
 // Define a custom struct to hold the JWT claims
