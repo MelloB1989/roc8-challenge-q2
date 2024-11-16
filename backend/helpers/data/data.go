@@ -51,24 +51,25 @@ func FilterData(age int, gender int, dateStart, dateEnd string) ([]*database.Dat
 	if err != nil {
 		return nil, fmt.Errorf("error connecting to database: %v", err)
 	}
+	defer db.Close()
+
 	// Start the base query
 	query := "SELECT * FROM data WHERE 1=1"
 	var args []interface{}
+	argIndex := 1 // For positional placeholders in PostgreSQL
 
 	// Add age filter if enabled
 	if age != -1 {
-		switch age {
-		case 0:
-			query += " AND age BETWEEN 15 AND 25"
-		case 1:
-			query += " AND age > 25"
-		}
+		query += fmt.Sprintf(" AND age = $%d", argIndex)
+		args = append(args, age)
+		argIndex++
 	}
 
 	// Add gender filter if enabled
 	if gender != -1 {
-		query += " AND gender = ?"
+		query += fmt.Sprintf(" AND gender = $%d", argIndex)
 		args = append(args, gender)
+		argIndex++
 	}
 
 	// Add date range filter if enabled
@@ -81,9 +82,13 @@ func FilterData(age int, gender int, dateStart, dateEnd string) ([]*database.Dat
 		if err != nil {
 			return nil, fmt.Errorf("invalid end date: %v", err)
 		}
-		query += " AND date >= ? AND date <= ?"
+		query += fmt.Sprintf(" AND timestamp >= $%d AND timestamp <= $%d", argIndex, argIndex+1)
 		args = append(args, start, end)
+		argIndex += 2
 	}
+
+	fmt.Println("Executing query:", query)
+	fmt.Println("With arguments:", args)
 
 	// Execute the dynamically built query
 	rows, err := db.Query(query, args...)

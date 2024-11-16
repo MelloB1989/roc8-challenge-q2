@@ -1,0 +1,24 @@
+meta {
+  name: getByFilters
+  type: http
+  seq: 2
+}
+
+post {
+  url: http://localhost:9000/v1/data/filters
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImthcnRpa2RkOTBAZ21haWwuY29tIiwidWlkIjoieXl2aThraDloOCJ9.6oLgslXB4-SBwrUBCzaafikPuoLcKFZQPa6clf4JKX4
+}
+
+body:json {
+  {
+    "date_start": "07/10/2022",
+    "date_end": "14/10/2022",
+    "age": 1,
+    "gender": -1
+  }
+}
