@@ -53,7 +53,7 @@ func FilterData(age int, gender int, dateStart, dateEnd string) ([]*database.Dat
 	}
 	defer db.Close()
 
-	// Start the base query
+	// Start the base query with explicit column names
 	query := "SELECT * FROM data WHERE 1=1"
 	var args []interface{}
 	argIndex := 1 // For positional placeholders in PostgreSQL
@@ -87,9 +87,6 @@ func FilterData(age int, gender int, dateStart, dateEnd string) ([]*database.Dat
 		argIndex += 2
 	}
 
-	fmt.Println("Executing query:", query)
-	fmt.Println("With arguments:", args)
-
 	// Execute the dynamically built query
 	rows, err := db.Query(query, args...)
 	if err != nil {
@@ -97,16 +94,12 @@ func FilterData(age int, gender int, dateStart, dateEnd string) ([]*database.Dat
 	}
 	defer rows.Close()
 
-	// Parse the rows into a slice of *database.Data
-	var records []*database.Data
-	for rows.Next() {
-		var record database.Data
-		if err := rows.Scan(&record); err != nil {
-			return nil, err
-		}
-		records = append(records, &record)
-	}
-	if err := rows.Err(); err != nil {
+	// Initialize the slice to hold the records
+	records := []*database.Data{}
+
+	// Parse the rows using ParseRows
+	if err := database.ParseRows(rows, &records); err != nil {
+		fmt.Println("Error parsing rows")
 		return nil, err
 	}
 
