@@ -7,6 +7,7 @@ import (
 	"roc8/database"
 	"roc8/handlers/auth"
 	"roc8/handlers/data"
+	"roc8/handlers/views"
 	"roc8/middlewares"
 )
 
@@ -41,6 +42,11 @@ func Routes() *fiber.App {
 	dataRoutes.Post("/create", middlewares.IsUserVerified, data.CreateDataRecord)
 	dataRoutes.Get("/:rid", middlewares.IsUserVerified, data.GetRecordByRid)
 	dataRoutes.Post("/filters", middlewares.IsUserVerified, data.GetDataByFilters)
+
+	viewRoutes := v1.Group("/views")
+	viewRoutes.Post("/create", middlewares.IsUserVerified, views.CreateView)
+	viewRoutes.Get("/:vid", middlewares.IsUserVerified, views.GetViewByVid)
+	viewRoutes.Post("/update", middlewares.IsUserVerified, views.UpdateViewByVid)
 
 	return app
 }

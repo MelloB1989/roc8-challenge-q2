@@ -6,20 +6,20 @@ import (
 	"roc8/utils"
 )
 
-func CreateView(view database.Views) error {
+func CreateView(view *database.Views) (*database.Views, error) {
 	db, err := database.DBConn()
 	if err != nil {
 		fmt.Println("Error connecting to database")
-		return err
+		return nil, err
 	}
 	defer db.Close()
 	view.Vid = utils.GenerateID()
 	err = database.InsertStruct(db, "views", view)
 	if err != nil {
 		fmt.Println("Error inserting view")
-		return err
+		return nil, err
 	}
-	return nil
+	return view, nil
 }
 
 func GetViewByVid(vid string) (*database.Views, error) {
@@ -42,17 +42,17 @@ func GetViewByVid(vid string) (*database.Views, error) {
 	return view[0], nil
 }
 
-func UpdateView(view database.Views) error {
+func UpdateView(view *database.Views) (*database.Views, error) {
 	db, err := database.DBConn()
 	if err != nil {
 		fmt.Println("Error connecting to database")
-		return err
+		return nil, err
 	}
 	defer db.Close()
 	err = database.UpdateStruct(db, "views", view, "vid", view.Vid)
 	if err != nil {
 		fmt.Println("Error updating view")
-		return err
+		return nil, err
 	}
-	return nil
+	return view, nil
 }
