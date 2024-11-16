@@ -7,6 +7,7 @@ import (
 	"time"
 
 	gonanoid "github.com/matoous/go-nanoid/v2"
+	"golang.org/x/crypto/bcrypt"
 )
 
 func GenerateOTP() string {
@@ -27,6 +28,19 @@ func VerifyPhoneNumber(phone string) bool {
 	re := regexp.MustCompile(phonePattern)
 	// Check if the phone number matches the pattern
 	return re.MatchString(phone)
+}
+
+func HashPassword(password string) (string, error) {
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+	if err != nil {
+		return "", err
+	}
+	return string(hashedPassword), nil
+}
+
+func CheckPasswordHash(password, hashedPassword string) bool {
+	err := bcrypt.CompareHashAndPassword([]byte(hashedPassword), []byte(password))
+	return err == nil
 }
 
 func Contains(slice []string, item string) bool {

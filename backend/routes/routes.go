@@ -5,6 +5,7 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/cors"
 
 	"roc8/database"
+	"roc8/handlers/auth"
 )
 
 func Routes() *fiber.App {
@@ -22,6 +23,17 @@ func Routes() *fiber.App {
 		})
 	})
 	v1 := app.Group("/v1")
+	v1.Get("/health", func(c *fiber.Ctx) error {
+		return c.Status(200).JSON(database.ResponseHTTP{
+			Success: true,
+			Data:    nil,
+			Message: "OK",
+		})
+	})
+
+	authRoutes := v1.Group("/auth")
+	authRoutes.Post("/login", auth.Login)
+	authRoutes.Post("/register", auth.Register)
 
 	return app
 }
