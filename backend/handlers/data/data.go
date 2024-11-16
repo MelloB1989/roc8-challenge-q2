@@ -33,8 +33,8 @@ func CreateDataRecord(c *fiber.Ctx) error {
 	rid := utils.GenerateID()
 	record := &database.Data{
 		Rid:      rid,
-		Date:     req.Date,
 		Age:      req.Age,
+		Gender:   req.Gender,
 		FeatureA: req.FeatureA,
 		FeatureB: req.FeatureB,
 		FeatureC: req.FeatureC,
@@ -42,12 +42,12 @@ func CreateDataRecord(c *fiber.Ctx) error {
 		FeatureE: req.FeatureE,
 		FeatureF: req.FeatureF,
 	}
-	date, err := time.Parse("02/01/2006", record.Date) // Parse the DD/MM/YYYY format
+	date, err := utils.ParseDate(req.Date) // Parse the DD/MM/YYYY format
 	if err != nil {
 		return err // handle the error
 	}
-	formattedDate := date.Format("2006-01-02") // Format to YYYY-MM-DD
-	record.Date = formattedDate
+	// formattedDate := date.Format("2006-01-02") // Format to YYYY-MM-DD
+	record.Date = date
 	err = data.CreateDataRecord(record)
 	if err != nil {
 		fmt.Println("Error creating record")

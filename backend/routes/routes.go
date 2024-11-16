@@ -39,6 +39,7 @@ func Routes() *fiber.App {
 
 	dataRoutes := v1.Group("/data")
 	dataRoutes.Post("/create", middlewares.IsUserVerified, data.CreateDataRecord)
+	dataRoutes.Get("/:rid", middlewares.IsUserVerified, data.GetRecordByRid)
 	dataRoutes.Post("/filters", middlewares.IsUserVerified, data.GetDataByFilters)
 
 	return app

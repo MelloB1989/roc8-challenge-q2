@@ -1,24 +1,15 @@
 meta {
-  name: getByFilters
+  name: getByRid
   type: http
-  seq: 2
+  seq: 3
 }
 
-post {
-  url: http://localhost:9000/v1/data/filters
-  body: json
+get {
+  url: http://localhost:9000/v1/data/kc53dsy5we
+  body: none
   auth: bearer
 }
 
 auth:bearer {
   token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImthcnRpa2RkOTBAZ21haWwuY29tIiwidWlkIjoieXl2aThraDloOCJ9.6oLgslXB4-SBwrUBCzaafikPuoLcKFZQPa6clf4JKX4
-}
-
-body:json {
-  {
-    "date_start": "07/10/2022",
-    "date_end": "14/10/2022",
-    "age": -1,
-    "gender": 1
-  }
 }

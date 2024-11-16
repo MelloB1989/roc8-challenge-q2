@@ -95,6 +95,7 @@ func main() {
 		}
 		dataset[i].FeatureF = f
 	}
+	// fmt.Println(dataset)
 	fmt.Println("Number of rows: ", len(dataset))
 	for i, data := range dataset {
 		fmt.Println("Creating row ", i+1)

@@ -29,7 +29,8 @@ func GetDataRecordByRid(rid string) (*database.Data, error) {
 		return nil, err
 	}
 	defer db.Close()
-	rows, err := db.Query("SELECT * FROM data WHERE rid = $1", rid)
+	rows, err := db.Query("SELECT rid, timestamp, age, gender, feature_a, feature_b, feature_c, feature_d, feature_e, feature_f FROM data WHERE rid = $1", rid)
+	fmt.Println(rows)
 	if err != nil {
 		fmt.Println("Error querying database")
 		return nil, err
@@ -86,7 +87,6 @@ func FilterData(age int, gender int, dateStart, dateEnd string) ([]*database.Dat
 		args = append(args, start, end)
 		argIndex += 2
 	}
-
 	// Execute the dynamically built query
 	rows, err := db.Query(query, args...)
 	if err != nil {
