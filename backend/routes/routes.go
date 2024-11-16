@@ -6,6 +6,8 @@ import (
 
 	"roc8/database"
 	"roc8/handlers/auth"
+	"roc8/handlers/data"
+	"roc8/middlewares"
 )
 
 func Routes() *fiber.App {
@@ -34,6 +36,10 @@ func Routes() *fiber.App {
 	authRoutes := v1.Group("/auth")
 	authRoutes.Post("/login", auth.Login)
 	authRoutes.Post("/register", auth.Register)
+
+	dataRoutes := v1.Group("/data")
+	dataRoutes.Post("/create", middlewares.IsUserVerified, data.CreateDataRecord)
+	dataRoutes.Get("/filters", middlewares.IsUserVerified, data.GetDataByFilters)
 
 	return app
 }

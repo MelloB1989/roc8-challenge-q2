@@ -1,0 +1,29 @@
+meta {
+  name: create
+  type: http
+  seq: 1
+}
+
+post {
+  url: http://localhost:9000/v1/data/create
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImthcnRpa2RkOTBAZ21haWwuY29tIiwidWlkIjoieXl2aThraDloOCJ9.6oLgslXB4-SBwrUBCzaafikPuoLcKFZQPa6clf4JKX4
+}
+
+body:json {
+  {
+    "timestamp": "4/10/2022",
+    "age": 1,
+    "gender": 1,
+    "feature_a": 200,
+    "feature_b": 200,
+    "feature_c": 200,
+    "feature_d": 200,
+    "feature_e": 200,
+    "feature_f": 200
+  }
+}

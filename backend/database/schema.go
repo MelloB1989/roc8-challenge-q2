@@ -15,7 +15,7 @@ type Users struct {
 
 type Data struct {
 	Rid      string `json:"rid"`
-	Date     string `json:"date"`
+	Date     string `json:"timestamp"`
 	Age      int    `json:"age"`    // 0 for 15-25 and 1 for >25, assuming age is in this range
 	Gender   int    `json:"gender"` // 0 for female and 1 for male
 	FeatureA int    `json:"feature_a"`

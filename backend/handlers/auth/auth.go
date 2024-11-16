@@ -2,6 +2,7 @@ package auth
 
 import (
 	"fmt"
+	"roc8/config"
 	"roc8/database"
 	"roc8/helpers/users"
 	"roc8/utils"
@@ -35,7 +36,7 @@ func Login(c *fiber.Ctx) error {
 		claims := token.Claims.(jwt.MapClaims)
 		claims["email"] = user.Email
 		claims["uid"] = user.Id
-		t, err := token.SignedString([]byte("secret"))
+		t, err := token.SignedString([]byte(config.NewConfig().JWTSecret))
 		if err != nil {
 			fmt.Println("Error signing token")
 			return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
@@ -79,7 +80,7 @@ func Register(c *fiber.Ctx) error {
 		Name:     userReq.Name,
 		Id:       utils.GenerateID(),
 	}
-	err = users.CreateUser(*user)
+	err = users.CreateUser(user)
 	if err != nil {
 		fmt.Println("Error creating user")
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{

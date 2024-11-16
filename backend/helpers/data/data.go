@@ -3,18 +3,17 @@ package data
 import (
 	"fmt"
 	"roc8/database"
-	"roc8/utils"
 	"time"
 )
 
-func CreateDataRecord(record database.Data) error {
+func CreateDataRecord(record *database.Data) error {
 	db, err := database.DBConn()
 	if err != nil {
 		fmt.Println("Error connecting to database")
 		return err
 	}
 	defer db.Close()
-	record.Rid = utils.GenerateID()
+	// record.Rid = utils.GenerateID()
 	err = database.InsertStruct(db, "data", record)
 	if err != nil {
 		fmt.Println("Error inserting record")
@@ -43,55 +42,68 @@ func GetDataRecordByRid(rid string) (*database.Data, error) {
 	return record[0], nil
 }
 
-// FilterData filters records based on optional criteria for age, gender, and date range.
+// FilterData retrieves records based on optional criteria for age, gender, and date range.
 // age: 0 for 15-25, 1 for >25, -1 for any age.
 // gender: 0 for female, 1 for male, -1 for any gender.
 // dateStart and dateEnd specify the bounds of the date range. If empty, no date filtering is applied.
-func FilterData(records []*database.Data, age int, gender int, dateStart, dateEnd string) ([]*database.Data, error) {
-	var filteredRecords []*database.Data
+func FilterData(age int, gender int, dateStart, dateEnd string) ([]*database.Data, error) {
+	db, err := database.DBConn()
+	if err != nil {
+		return nil, fmt.Errorf("error connecting to database: %v", err)
+	}
+	// Start the base query
+	query := "SELECT * FROM data WHERE 1=1"
+	var args []interface{}
 
-	var start, end time.Time
-	var dateFilterEnabled bool
+	// Add age filter if enabled
+	if age != -1 {
+		switch age {
+		case 0:
+			query += " AND age BETWEEN 15 AND 25"
+		case 1:
+			query += " AND age > 25"
+		}
+	}
 
-	// Parse dates if they are provided
+	// Add gender filter if enabled
+	if gender != -1 {
+		query += " AND gender = ?"
+		args = append(args, gender)
+	}
+
+	// Add date range filter if enabled
 	if dateStart != "" && dateEnd != "" {
-		var err error
-		start, err = time.Parse("2006-01-02", dateStart)
+		start, err := time.Parse("2006-01-02", dateStart)
 		if err != nil {
-			return nil, err
+			return nil, fmt.Errorf("invalid start date: %v", err)
 		}
-		end, err = time.Parse("2006-01-02", dateEnd)
+		end, err := time.Parse("2006-01-02", dateEnd)
 		if err != nil {
-			return nil, err
+			return nil, fmt.Errorf("invalid end date: %v", err)
 		}
-		dateFilterEnabled = true
+		query += " AND date >= ? AND date <= ?"
+		args = append(args, start, end)
 	}
 
-	for _, record := range records {
-		// Check age, if age filtering is enabled (i.e., age != -1)
-		if age != -1 && record.Age != age {
-			continue
-		}
+	// Execute the dynamically built query
+	rows, err := db.Query(query, args...)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
 
-		// Check gender, if gender filtering is enabled (i.e., gender != -1)
-		if gender != -1 && record.Gender != gender {
-			continue
+	// Parse the rows into a slice of *database.Data
+	var records []*database.Data
+	for rows.Next() {
+		var record database.Data
+		if err := rows.Scan(&record); err != nil {
+			return nil, err
 		}
-
-		// Check date range, if date filtering is enabled
-		if dateFilterEnabled {
-			recordDate, err := time.Parse("2006-01-02", record.Date)
-			if err != nil {
-				return nil, err
-			}
-			if recordDate.Before(start) || recordDate.After(end) {
-				continue
-			}
-		}
-
-		// If all filters match, add the record to the results
-		filteredRecords = append(filteredRecords, record)
+		records = append(records, &record)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
 	}
 
-	return filteredRecords, nil
+	return records, nil
 }

@@ -6,7 +6,7 @@ import (
 	"roc8/utils"
 )
 
-func CreateUser(user database.Users) error {
+func CreateUser(user *database.Users) error {
 	db, err := database.DBConn()
 	if err != nil {
 		fmt.Println("Error connecting to database")
@@ -16,7 +16,7 @@ func CreateUser(user database.Users) error {
 	user.Id = utils.GenerateID()
 	err = database.InsertStruct(db, "users", user)
 	if err != nil {
-		fmt.Println("Error inserting user")
+		fmt.Println("Error inserting user", err)
 		return err
 	}
 	return nil
