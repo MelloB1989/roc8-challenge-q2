@@ -7,6 +7,7 @@ import (
 	"io"
 	"net/http"
 	"strconv"
+	"time"
 
 	"github.com/xuri/excelize/v2"
 )
@@ -47,7 +48,16 @@ func main() {
 		if row[0] == "Day" {
 			continue
 		}
-		dataset[i].Day = row[0]
+		// Parse the date string into time.Time (DD/MM/YYYY format)
+		parsedDate, err := time.Parse("2/1/2006", row[0])
+		if err != nil {
+			fmt.Println("Error parsing date:", err)
+			return
+		}
+
+		// Format the date as "02/01/2006" (leading zeroes for day and month)
+		formattedDate := parsedDate.Format("02/01/2006")
+		dataset[i].Day = formattedDate
 		if row[1] == "15-25" {
 			dataset[i].Age = 0
 		} else {

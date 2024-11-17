@@ -22,8 +22,8 @@ export default function DatePickerWithRange({
   const { setFilters, filters } = useDashStore();
 
   const [date, setDate] = React.useState<DateRange | undefined>({
-    from: new Date(2022, 0, 20),
-    to: addDays(new Date(2022, 0, 20), 20),
+    from: new Date(2022, 9, 1),
+    to: addDays(new Date(2022, 9, 20), 30),
   });
 
   useEffect(() => {

@@ -14,8 +14,8 @@ import (
 func Routes() *fiber.App {
 	app := fiber.New()
 	app.Use(cors.New(cors.Config{
-		AllowOrigins: "*",
-		AllowHeaders: "Origin, Content-Type, Accept, X-Karma-Admin-Auth",
+		AllowOrigins: "http://localhost:3000",
+		AllowHeaders: "Origin, Content-Type, Accept, X-Karma-Admin-Auth, Authorization",
 		AllowMethods: "GET, POST, HEAD, PUT, DELETE, PATCH, OPTIONS",
 	}))
 	app.Get("/health", func(c *fiber.Ctx) error {

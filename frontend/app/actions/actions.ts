@@ -2,6 +2,7 @@
 import axios from "axios";
 import { config } from "@/config";
 import { Filters, Data } from "@/types";
+import { auth } from "@/auth";
 
 export async function registerUser(
   email: string,
@@ -23,16 +24,26 @@ export async function registerUser(
   }
 }
 
-export async function getFilteredData(filters: Filters, jwt: string) {
+export async function getFilteredData(filters: Filters) {
+  const session = await auth();
+  if (!session?.user.jwt) {
+    return null;
+  }
   try {
+    console.log("filters", filters);
     const response = await axios.post(
       `${config.api}/${config.api_v}/data/filters`,
-      { filters },
+      filters,
       {
         headers: {
-          Authorization: `Bearer ${jwt}`,
+          Authorization: `Bearer ${session.user.jwt}`,
         },
       },
+    );
+    console.log(
+      "response",
+      response.data.records[0],
+      response.data.records.length,
     );
     return response.data.records as Data[];
   } catch (e) {

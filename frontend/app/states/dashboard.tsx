@@ -12,7 +12,13 @@ interface DashState {
   setData: (data: Data[]) => void;
   setFilters: (filters: Filters) => void;
   clearFilters: () => void;
-  getDashboardData: (jwt: string) => void;
+  getDashboardData: () => void;
+  barData: {
+    feature: string;
+    total: number;
+    fill: string;
+  }[];
+  calculateBarData: () => void;
 }
 
 export const useDashStore = create<DashState>((set, get) => ({
@@ -38,16 +44,46 @@ export const useDashStore = create<DashState>((set, get) => ({
         date_end: "",
       },
     }),
-  getDashboardData: async (jwt: string) => {
-    const { filters } = get();
-    const res = await getFilteredData(filters, jwt);
+  calculateBarData: () => {
+    const { data } = get();
+    const featureTotals: {
+      feature: string;
+      total: number;
+      fill: string;
+    }[] = [
+      { feature: "a", total: 0, fill: "var(--color-a)" },
+      { feature: "b", total: 0, fill: "var(--color-b)" },
+      { feature: "c", total: 0, fill: "var(--color-c)" },
+      { feature: "d", total: 0, fill: "var(--color-d)" },
+      { feature: "e", total: 0, fill: "var(--color-e)" },
+      { feature: "f", total: 0, fill: "var(--color-f)" },
+    ];
+
+    // Loop over each data entry and add the values to the respective feature total
+    for (const entry of data) {
+      featureTotals[0].total += entry.feature_a;
+      featureTotals[1].total += entry.feature_b;
+      featureTotals[2].total += entry.feature_c;
+      featureTotals[3].total += entry.feature_d;
+      featureTotals[4].total += entry.feature_e;
+      featureTotals[5].total += entry.feature_f;
+    }
+    console.log(featureTotals);
+    set({ barData: featureTotals });
+  },
+  getDashboardData: async () => {
+    const { filters, calculateBarData } = get();
+    const res = await getFilteredData(filters);
     if (res) {
       set({ data: res });
       set({ loading: false });
+      // console.log(res.length);
+      calculateBarData();
       return;
     }
     set({ data: [] });
     set({ error: "No data found" });
     set({ loading: false });
   },
+  barData: [],
 }));

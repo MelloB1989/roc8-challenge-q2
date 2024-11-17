@@ -12,12 +12,12 @@ import { useDashStore } from "@/app/states/dashboard";
 import { useEffect } from "react";
 import { toast, ToastContainer } from "react-toastify";
 
-export default function Dashboard({ jwt }: { jwt: string }) {
+export default function Dashboard() {
   const { filters, clearFilters, getDashboardData, error, loading } =
     useDashStore();
   useEffect(() => {
-    console.log(filters);
-    getDashboardData(jwt);
+    // console.log(filters);
+    getDashboardData();
   }, [filters]);
 
   useEffect(() => {
