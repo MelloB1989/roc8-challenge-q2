@@ -25,5 +25,5 @@ func main() {
 	app.Use(cors.New(cors.Config{
 		AllowOrigins: "*",
 	}))
-	app.Listen(":9000")
+	app.Listen(":7860")
 }

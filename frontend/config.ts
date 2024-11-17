@@ -1,4 +1,4 @@
 export const config = {
-  api: "http://localhost:9000",
+  api: "https://roc8-q2-challenge.coffeecodes.in",
   api_v: "v1",
 };
