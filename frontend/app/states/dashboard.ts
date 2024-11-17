@@ -143,7 +143,7 @@ export const useDashStore = create<DashState>((set, get) => ({
     const { filters } = get();
     const res = await createView(filters);
     if (res) {
-      return `${window.location.origin}/view/${res.vid}` as string;
+      return `${window.location.origin}/views/${res.vid}` as string;
     }
     return null;
   },
