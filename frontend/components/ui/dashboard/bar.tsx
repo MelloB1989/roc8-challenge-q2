@@ -1,6 +1,4 @@
 "use client";
-
-import { TrendingUp } from "lucide-react";
 import { Bar, BarChart, XAxis, YAxis } from "recharts";
 import { useDashStore } from "@/app/states/dashboard";
 
@@ -49,10 +47,16 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-export default function Component() {
-  const { filters, barData } = useDashStore();
+export default function Component({
+  ...props
+}: {
+  children?: React.ReactNode;
+  className?: string;
+  style?: React.CSSProperties;
+}) {
+  const { filters, barData, setLineFeature } = useDashStore();
   return (
-    <Card>
+    <Card className={props?.className}>
       <CardHeader>
         <CardTitle>Roc8</CardTitle>
         <CardDescription>
@@ -84,17 +88,19 @@ export default function Component() {
               cursor={false}
               content={<ChartTooltipContent hideLabel />}
             />
-            <Bar dataKey="total" layout="vertical" radius={5} />
+            <Bar
+              dataKey="total"
+              layout="vertical"
+              radius={5}
+              onClick={(e: any) => {
+                setLineFeature(e.feature.toLowerCase());
+              }}
+            />
           </BarChart>
         </ChartContainer>
       </CardContent>
       <CardFooter className="flex-col items-start gap-2 text-sm">
-        <div className="flex gap-2 font-medium leading-none">
-          Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
-        </div>
-        <div className="leading-none text-muted-foreground">
-          Showing total visitors for the last 6 months
-        </div>
+        <div className="leading-none text-muted-foreground">Made by MelloB</div>
       </CardFooter>
     </Card>
   );

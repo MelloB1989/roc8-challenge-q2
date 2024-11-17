@@ -13,7 +13,7 @@ export interface Filters {
 
 export interface Data {
   rid: string;
-  date: string;
+  timestamp: string;
   age: number;
   gender: number;
   feature_a: number;

@@ -52,12 +52,12 @@ export default function Dashboard() {
             </Button>
           </div>
           {/* Charts Section */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="rounded bg-gray-50 dark:bg-gray-800 p-4 flex justify-center items-center">
-              <Bar />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 min-h-screen">
+            <div className="rounded bg-gray-50 dark:bg-gray-800 p-4 flex justify-center items-center h-[300px] md:h-[500px]">
+              <Bar className="w-full h-full" />
             </div>
-            <div className="rounded bg-gray-50 dark:bg-gray-800 p-4 flex justify-center items-center">
-              <Line />
+            <div className="rounded bg-gray-50 dark:bg-gray-800 p-4 flex justify-center items-center h-[300px] md:h-[500px]">
+              <Line className="w-full h-full" />
             </div>
           </div>
         </div>
