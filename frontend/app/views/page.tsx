@@ -1,12 +1,12 @@
 import { redirect } from "next/navigation";
 import { auth } from "@/auth";
-import DashboardPage from "./dash";
+import ViewsPage from "./views";
 
-export default async function Dashboard() {
+export default async function Views() {
   const session = await auth();
   if (!session?.user.jwt) {
     redirect(`/auth/login`);
   }
 
-  return <DashboardPage />;
+  return <ViewsPage />;
 }

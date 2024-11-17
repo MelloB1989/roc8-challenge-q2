@@ -26,11 +26,7 @@ export interface Data {
 
 export interface Views {
   vid: string;
-  filters: {
-    ageFilter: null | number;
-    dateFilter: null | string;
-    genderFilter: null | number;
-  };
+  filters: string;
   created_by: string;
   created_at: string;
 }
