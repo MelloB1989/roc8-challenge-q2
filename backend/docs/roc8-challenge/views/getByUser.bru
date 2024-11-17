@@ -1,0 +1,15 @@
+meta {
+  name: getByUser
+  type: http
+  seq: 3
+}
+
+get {
+  url: http://localhost:9000/v1/views
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImthcnRpa2RkOTBAZ21haWwuY29tIiwidWlkIjoiX2ppdm9ocmM3aCJ9.wISS0loKNqDMAAk086lRSZHfEQRb3eRSkqVa4k8Tae4
+}

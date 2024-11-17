@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { Data, Filters } from "@/types";
-import { getFilteredData } from "../actions/actions";
+import { createView, getFilteredData } from "../actions/actions";
 
 interface LineData {
   [key: string]: { date: string; value: number }[];
@@ -27,6 +27,7 @@ interface DashState {
   calculateLineData: () => void;
   lineFeature: string;
   setLineFeature: (feature: string) => void;
+  shareView: () => Promise<string | null>;
 }
 
 export const useDashStore = create<DashState>((set, get) => ({
@@ -138,4 +139,12 @@ export const useDashStore = create<DashState>((set, get) => ({
   },
   lineFeature: "a",
   setLineFeature: (feature) => set({ lineFeature: feature }),
+  shareView: async () => {
+    const { filters } = get();
+    const res = await createView(filters);
+    if (res) {
+      return `${window.location.origin}/view/${res.vid}` as string;
+    }
+    return null;
+  },
 }));

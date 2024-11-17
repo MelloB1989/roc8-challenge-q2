@@ -47,6 +47,7 @@ func Routes() *fiber.App {
 	viewRoutes.Post("/create", middlewares.IsUserVerified, views.CreateView)
 	viewRoutes.Get("/:vid", middlewares.IsUserVerified, views.GetViewByVid)
 	viewRoutes.Post("/update", middlewares.IsUserVerified, views.UpdateViewByVid)
+	viewRoutes.Get("/", middlewares.IsUserVerified, views.GetViewsByUid)
 
 	return app
 }

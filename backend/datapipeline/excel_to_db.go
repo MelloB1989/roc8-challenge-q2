@@ -120,7 +120,7 @@ func main() {
 			return
 		}
 		req.Header.Set("Content-Type", "application/json")
-		req.Header.Set("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImthcnRpa2RkOTBAZ21haWwuY29tIiwidWlkIjoieXl2aThraDloOCJ9.6oLgslXB4-SBwrUBCzaafikPuoLcKFZQPa6clf4JKX4")
+		req.Header.Set("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImthcnRpa2RkOTBAZ21haWwuY29tIiwidWlkIjoiX2ppdm9ocmM3aCJ9.wISS0loKNqDMAAk086lRSZHfEQRb3eRSkqVa4k8Tae4")
 		client := &http.Client{}
 		resp, err := client.Do(req)
 		if err != nil {

@@ -29,8 +29,8 @@ type Data struct {
 }
 
 type Views struct {
-	Vid       string `json:"vid"`
-	Filters   string `json:"filters" db:"json"`
-	CreatedAt string `json:"created_at"`
-	CreatedBy string `json:"created_by"`
+	Vid       string    `json:"vid"`
+	Filters   string    `json:"filters" db:"json"`
+	CreatedAt time.Time `json:"created_at"`
+	CreatedBy string    `json:"created_by"`
 }

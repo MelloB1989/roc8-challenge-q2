@@ -31,7 +31,10 @@ const Card = ({ loading, data }: { loading: boolean; data?: View }) => {
     <div className="rounded-lg p-4 bg-gray-50 dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 space-y-4">
       <div className="flex justify-between items-center">
         <div className="text-lg font-semibold">
-          Created At: {data?.created_at}
+          Created At:{" "}
+          {new Date(
+            data?.created_at ? data.created_at : "",
+          ).toLocaleDateString()}
         </div>
         <button className="text-blue-500 text-sm" onClick={handleCopyLink}>
           {copied ? "Link Copied!" : "Copy Link"}
