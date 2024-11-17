@@ -28,12 +28,15 @@ export const {
       },
       async authorize(credentials, req) {
         // Replace "/api/auth" with your actual authentication endpoint
-        const res = await fetch(`http://localhost:3000/api/authenticate`, {
-          // const res = await fetch(`https://hai-doc-prod.coffeecodes.in/api/u`, {
-          method: "POST",
-          body: JSON.stringify(credentials),
-          headers: { "Content-Type": "application/json" },
-        });
+        // const res = await fetch(`http://localhost:3000/api/authenticate`, {
+        const res = await fetch(
+          `https://roc8-challenge-q2.vercel.app/api/authenticate`,
+          {
+            method: "POST",
+            body: JSON.stringify(credentials),
+            headers: { "Content-Type": "application/json" },
+          },
+        );
         const r = await res.json();
         console.log(r);
         const user = {
