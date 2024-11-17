@@ -7,29 +7,29 @@ import "react-toastify/dist/ReactToastify.css";
 
 export default function Login() {
   const {
+    name,
+    setName,
     email,
     setEmail,
     password,
     setPassword,
-    login,
+    cPassword,
+    setCPassword,
+    register,
     loading,
     error,
-    setError,
     setLoading,
+    signup,
   } = useAuthStore();
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const error = params.get("error");
-    const message = params.get("message");
-    if (message) {
-      setError(message);
-      toast.error(message);
-    }
-    if (error) {
+    if (error !== "") {
       toast.error(error);
-      setError("");
     }
-  }, []);
+    if (signup) {
+      toast.success("Sign up successful");
+      window.location.href = "/auth/login";
+    }
+  }, [error, signup]);
   return (
     <>
       <ToastContainer />
@@ -61,10 +61,10 @@ export default function Login() {
           </Link>
           <div className="my-auto mb-auto mt-8 flex flex-col md:mt-[70px] w-[350px] max-w-[450px] mx-auto md:max-w-[450px] lg:mt-[130px] lg:max-w-[450px]">
             <p className="text-[32px] font-bold text-zinc-950 dark:text-white">
-              Sign In
+              Sign Up
             </p>
             <p className="mb-2.5 mt-2.5 font-normal text-zinc-950 dark:text-zinc-400">
-              Enter your email and password to sign in!
+              Enter your email, name and password to sign up!
             </p>
             <div className="relative my-4">
               <div className="relative flex items-center py-1">
@@ -76,6 +76,22 @@ export default function Login() {
               <div className="mb-4">
                 <div className="grid gap-2">
                   <div className="grid gap-1">
+                    <label
+                      className="text-zinc-950 mt-2 dark:text-white"
+                      htmlFor="password"
+                    >
+                      Name
+                    </label>
+                    <input
+                      id="name"
+                      placeholder="Name"
+                      type="name"
+                      autoComplete="name"
+                      className="mr-2.5 mb-2 h-full min-h-[44px] w-full rounded-lg border border-zinc-200 bg-white px-4 py-3 text-sm font-medium text-zinc-950 placeholder:text-zinc-400 focus:outline-0 dark:border-zinc-800 dark:bg-transparent dark:text-white dark:placeholder:text-zinc-400"
+                      name="name"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                    />
                     <label
                       className="text-zinc-950 dark:text-white"
                       htmlFor="email"
@@ -110,13 +126,32 @@ export default function Login() {
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                     />
+                    <label
+                      className="text-zinc-950 mt-2 dark:text-white"
+                      htmlFor="password"
+                    >
+                      Password
+                    </label>
+                    <input
+                      id="confirm-password"
+                      placeholder="Confirm Password"
+                      type="password"
+                      autoComplete="confirm-password"
+                      className="mr-2.5 mb-2 h-full min-h-[44px] w-full rounded-lg border border-zinc-200 bg-white px-4 py-3 text-sm font-medium text-zinc-950 placeholder:text-zinc-400 focus:outline-0 dark:border-zinc-800 dark:bg-transparent dark:text-white dark:placeholder:text-zinc-400"
+                      name="password"
+                      value={cPassword}
+                      onChange={(e) => setCPassword(e.target.value)}
+                    />
                   </div>
                   <p style={{ color: "red" }}> {error} </p>
                   <button
                     className="whitespace-nowrap ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 mt-2 flex h-[unset] w-full items-center justify-center rounded-lg px-4 py-4 text-sm font-medium"
                     onClick={() => {
                       setLoading(true);
-                      login();
+                      register();
+                      if (signup) {
+                        window.location.href = "/login";
+                      }
                     }}
                     disabled={loading}
                   >
@@ -142,7 +177,7 @@ export default function Login() {
                         ></path>
                       </svg>
                     ) : (
-                      "Sign In"
+                      "Sign Up"
                     )}
                   </button>
                 </div>
@@ -152,7 +187,7 @@ export default function Login() {
                   href="/auth/signup"
                   className="font-medium text-zinc-950 dark:text-white text-sm"
                 >
-                  Dont have an account? Sign up
+                  Have an account? Sign in
                 </Link>
               </p>
             </div>
