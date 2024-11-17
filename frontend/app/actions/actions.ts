@@ -23,16 +23,20 @@ export async function registerUser(
   }
 }
 
-export async function getFilteredData(filters: Filters) {
+export async function getFilteredData(filters: Filters, jwt: string) {
   try {
     const response = await axios.post(
       `${config.api}/${config.api_v}/data/filters`,
+      { filters },
       {
-        filters,
+        headers: {
+          Authorization: `Bearer ${jwt}`,
+        },
       },
     );
     return response.data.records as Data[];
   } catch (e) {
+    console.error("API Error:", e);
     return null;
   }
 }

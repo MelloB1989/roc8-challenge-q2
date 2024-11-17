@@ -89,16 +89,23 @@ func GetDataByFilters(c *fiber.Ctx) error {
 			"message": "Invalid request",
 		})
 	}
-	//Parse the date strings
-	dateStart, err := time.Parse("02/01/2006", filters.DateStart) // Parse the DD/MM/YYYY format
-	if err != nil {
-		return err // handle the error
+	dateStart, dateEnd := "", ""
+	if filters.DateStart != "" && filters.DateEnd != "" {
+		// Parse the date strings
+		parsedStart, err := time.Parse("02/01/2006", filters.DateStart) // Parse the DD/MM/YYYY format
+		if err != nil {
+			return err // handle the error
+		}
+		parsedEnd, err := time.Parse("02/01/2006", filters.DateEnd) // Parse the DD/MM/YYYY format
+		if err != nil {
+			return err // handle the error
+		}
+		// Format as YYYY-MM-DD for function input
+		dateStart = parsedStart.Format("2006-01-02")
+		dateEnd = parsedEnd.Format("2006-01-02")
 	}
-	dateEnd, err := time.Parse("02/01/2006", filters.DateEnd) // Parse the DD/MM/YYYY format
-	if err != nil {
-		return err // handle the error
-	}
-	records, err := data.FilterData(filters.Age, filters.Gender, dateStart.Format("2006-01-02"), dateEnd.Format("2006-01-02"))
+
+	records, err := data.FilterData(filters.Age, filters.Gender, dateStart, dateEnd)
 	if err != nil {
 		fmt.Println("Error getting records", err)
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{

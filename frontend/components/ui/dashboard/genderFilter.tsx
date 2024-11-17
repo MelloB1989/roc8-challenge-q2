@@ -1,3 +1,4 @@
+"use client";
 import * as React from "react";
 
 import {
@@ -9,10 +10,18 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useDashStore } from "@/app/states/dashboard";
 
 export default function GenderFilter() {
+  const { setFilters, filters } = useDashStore();
+  const handleGenderChange = (value: string) => {
+    setFilters({
+      ...filters,
+      gender: parseInt(value),
+    });
+  };
   return (
-    <Select>
+    <Select onValueChange={handleGenderChange}>
       <SelectTrigger className="w-[180px]">
         <SelectValue placeholder="Select gender" />
       </SelectTrigger>

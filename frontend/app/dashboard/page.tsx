@@ -8,5 +8,5 @@ export default async function Dashboard() {
     redirect(`/login`);
   }
 
-  return <DashboardPage />;
+  return <DashboardPage jwt={session.user.jwt} />;
 }

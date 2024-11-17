@@ -55,7 +55,7 @@ func FilterData(age int, gender int, dateStart, dateEnd string) ([]*database.Dat
 	defer db.Close()
 
 	// Start the base query with explicit column names
-	query := "SELECT * FROM data WHERE 1=1"
+	query := "SELECT rid, timestamp, age, gender, feature_a, feature_b, feature_c, feature_d, feature_e, feature_f FROM data WHERE 1=1"
 	var args []interface{}
 	argIndex := 1 // For positional placeholders in PostgreSQL
 
@@ -87,7 +87,23 @@ func FilterData(age int, gender int, dateStart, dateEnd string) ([]*database.Dat
 		args = append(args, start, end)
 		argIndex += 2
 	}
-	// Execute the dynamically built query
+	// // Execute the dynamically built query
+	// rows, err := db.Query(query, args...)
+	// if err != nil {
+	// 	return nil, err
+	// }
+	// defer rows.Close()
+
+	// // Initialize the slice to hold the records
+	// records := []*database.Data{}
+
+	// // Parse the rows using ParseRows
+	// if err := database.ParseRows(rows, &records); err != nil {
+	// 	fmt.Println("Error parsing rows")
+	// 	return nil, err
+	// }
+
+	// return records, nil
 	rows, err := db.Query(query, args...)
 	if err != nil {
 		return nil, err
@@ -97,9 +113,34 @@ func FilterData(age int, gender int, dateStart, dateEnd string) ([]*database.Dat
 	// Initialize the slice to hold the records
 	records := []*database.Data{}
 
-	// Parse the rows using ParseRows
-	if err := database.ParseRows(rows, &records); err != nil {
-		fmt.Println("Error parsing rows")
+	// Loop through the rows and scan each one into a Data struct
+	for rows.Next() {
+		var record database.Data
+		// Scan the row's columns into the Data struct fields
+		err := rows.Scan(
+			&record.Rid,
+			&record.Date,
+			&record.Age,
+			&record.Gender,
+			&record.FeatureA,
+			&record.FeatureB,
+			&record.FeatureC,
+			&record.FeatureD,
+			&record.FeatureE,
+			&record.FeatureF,
+		)
+		if err != nil {
+			fmt.Println("Error scanning row:", err)
+			return nil, err
+		}
+
+		// Append the scanned record to the records slice
+		records = append(records, &record)
+	}
+
+	// Check for errors encountered during iteration
+	if err := rows.Err(); err != nil {
+		fmt.Println("Error during row iteration:", err)
 		return nil, err
 	}
 

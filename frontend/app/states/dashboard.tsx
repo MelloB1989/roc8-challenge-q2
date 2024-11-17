@@ -12,7 +12,7 @@ interface DashState {
   setData: (data: Data[]) => void;
   setFilters: (filters: Filters) => void;
   clearFilters: () => void;
-  getDashboardData: () => void;
+  getDashboardData: (jwt: string) => void;
 }
 
 export const useDashStore = create<DashState>((set, get) => ({
@@ -38,9 +38,9 @@ export const useDashStore = create<DashState>((set, get) => ({
         date_end: "",
       },
     }),
-  getDashboardData: async () => {
+  getDashboardData: async (jwt: string) => {
     const { filters } = get();
-    const res = await getFilteredData(filters);
+    const res = await getFilteredData(filters, jwt);
     if (res) {
       set({ data: res });
       set({ loading: false });

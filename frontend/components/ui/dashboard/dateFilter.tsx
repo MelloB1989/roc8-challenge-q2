@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { useEffect } from "react";
 import { addDays, format } from "date-fns";
 import { Calendar as CalendarIcon } from "lucide-react";
 import { DateRange } from "react-day-picker";
@@ -13,14 +14,29 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { useDashStore } from "@/app/states/dashboard";
 
 export default function DatePickerWithRange({
   className,
 }: React.HTMLAttributes<HTMLDivElement>) {
+  const { setFilters, filters } = useDashStore();
+
   const [date, setDate] = React.useState<DateRange | undefined>({
     from: new Date(2022, 0, 20),
     to: addDays(new Date(2022, 0, 20), 20),
   });
+
+  useEffect(() => {
+    const formatDate = (date: Date | undefined) => {
+      return date ? new Intl.DateTimeFormat("en-GB").format(date) : "";
+    };
+
+    setFilters({
+      ...filters,
+      date_start: formatDate(date?.from),
+      date_end: formatDate(date?.to),
+    });
+  }, [date]);
 
   return (
     <div className={cn("grid gap-2", className)}>

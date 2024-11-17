@@ -1,14 +1,34 @@
+"use client";
 import Sidebar from "@/components/ui/dashboard/sidebar";
+import "react-toastify/dist/ReactToastify.css";
 import Nav from "@/components/ui/dashboard/nav";
+import { Button } from "@/components/ui/button";
 import DateFilter from "@/components/ui/dashboard/dateFilter";
 import AgeFilter from "@/components/ui/dashboard/ageFilter";
 import GenderFilter from "@/components/ui/dashboard/genderFilter";
 import Bar from "@/components/ui/dashboard/bar";
 import Line from "@/components/ui/dashboard/line";
+import { useDashStore } from "@/app/states/dashboard";
+import { useEffect } from "react";
+import { toast, ToastContainer } from "react-toastify";
 
-export default function Dashboard() {
+export default function Dashboard({ jwt }: { jwt: string }) {
+  const { filters, clearFilters, getDashboardData, error, loading } =
+    useDashStore();
+  useEffect(() => {
+    console.log(filters);
+    getDashboardData(jwt);
+  }, [filters]);
+
+  useEffect(() => {
+    console.log(error);
+    if (error !== "") {
+      toast.error(error);
+    }
+  }, [error]);
   return (
     <>
+      <ToastContainer />
       <Nav />
       <Sidebar />
       <div className="p-4 sm:ml-64">
@@ -27,9 +47,9 @@ export default function Dashboard() {
           </div>
           {/* Clear Filters Button */}
           <div className="flex justify-end mb-4">
-            <button className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors">
+            <Button variant="destructive" onClick={clearFilters}>
               Clear Filters
-            </button>
+            </Button>
           </div>
           {/* Charts Section */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
