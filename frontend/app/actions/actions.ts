@@ -22,6 +22,7 @@ export async function registerUser(
     );
     return response.data;
   } catch (e) {
+    console.error("API Error:", e);
     return { type: "error", error: "Email already taken" };
   }
 }

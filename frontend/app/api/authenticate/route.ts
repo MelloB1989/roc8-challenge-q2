@@ -28,12 +28,11 @@ export async function POST(req: Request) {
         type: "",
       });
     }
-  } catch (e: any) {
+  } catch (e) {
     console.log(e);
     return NextResponse.json({
       success: false,
       error: e,
-      full_error: e.toString(),
     });
   }
 }

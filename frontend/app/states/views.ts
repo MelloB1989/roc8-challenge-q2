@@ -21,7 +21,7 @@ interface ViewState {
   error: string;
 }
 
-export const useViewsStore = create<ViewState>((set, get) => ({
+export const useViewsStore = create<ViewState>((set) => ({
   views: [],
   loading: false,
   error: "",

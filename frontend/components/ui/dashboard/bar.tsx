@@ -92,8 +92,9 @@ export default function Component({
               dataKey="total"
               layout="vertical"
               radius={5}
-              onClick={(e: any) => {
-                setLineFeature(e.feature.toLowerCase());
+              onClick={(e) => {
+                const feature = (e as { feature: string }).feature;
+                setLineFeature(feature.toLowerCase());
               }}
             />
           </BarChart>

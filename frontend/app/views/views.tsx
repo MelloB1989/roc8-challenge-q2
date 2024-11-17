@@ -71,16 +71,6 @@ export default function Dashboard() {
     }
   }, [error]);
 
-  const cardData = {
-    createdAt: "2022-10-04",
-    filters: {
-      age: -1,
-      gender: -1,
-      date_start: "04/10/2022",
-      date_end: "05/10/2022",
-    },
-  };
-
   return (
     <>
       <ToastContainer />

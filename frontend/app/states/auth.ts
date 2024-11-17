@@ -50,6 +50,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     }
     try {
     } catch (e) {
+      console.log(e);
       set({ error: "Wrong Password!" });
     }
   },
@@ -71,6 +72,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     }
     try {
     } catch (e) {
+      console.log(e);
       set({ error: "Wrong Password!" });
     }
   },

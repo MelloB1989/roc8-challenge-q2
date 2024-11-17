@@ -2,10 +2,6 @@
 import Sidebar from "@/components/ui/dashboard/sidebar";
 import "react-toastify/dist/ReactToastify.css";
 import Nav from "@/components/ui/dashboard/nav";
-import { Button } from "@/components/ui/button";
-import DateFilter from "@/components/ui/dashboard/dateFilter";
-import AgeFilter from "@/components/ui/dashboard/ageFilter";
-import GenderFilter from "@/components/ui/dashboard/genderFilter";
 import Bar from "@/components/ui/dashboard/bar";
 import Line from "@/components/ui/dashboard/line";
 import { useDashStore } from "@/app/states/dashboard";
