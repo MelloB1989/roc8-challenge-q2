@@ -1,6 +1,7 @@
 "use server";
 import axios from "axios";
 import { config } from "@/config";
+import { Filters, Data } from "@/types";
 
 export async function registerUser(
   email: string,
@@ -19,5 +20,19 @@ export async function registerUser(
     return response.data;
   } catch (e) {
     return { type: "error", error: "Email already taken" };
+  }
+}
+
+export async function getFilteredData(filters: Filters) {
+  try {
+    const response = await axios.post(
+      `${config.api}/${config.api_v}/data/filters`,
+      {
+        filters,
+      },
+    );
+    return response.data.records as Data[];
+  } catch (e) {
+    return null;
   }
 }

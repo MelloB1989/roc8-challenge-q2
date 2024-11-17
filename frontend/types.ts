@@ -4,6 +4,13 @@ export interface Users {
   name: string;
 }
 
+export interface Filters {
+  age: number;
+  gender: number;
+  date_start: string;
+  date_end: string;
+}
+
 export interface Data {
   rid: string;
   date: string;
