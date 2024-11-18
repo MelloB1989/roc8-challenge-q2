@@ -149,7 +149,7 @@ export default function Login() {
               </div>
               <p>
                 <Link
-                  href="/auth/signup"
+                  href="/auth/register"
                   className="font-medium text-zinc-950 dark:text-white text-sm"
                 >
                   Dont have an account? Sign up
